@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --progress -p",
-    "start": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server --config webpack.config.dev.js -d",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js -d",
     "lint": "eslint . --ext .js,.jsx"
   },
   "repository": {
