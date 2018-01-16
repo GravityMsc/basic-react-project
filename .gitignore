@@ -1,0 +1,6 @@
+# deps
+node_modules/
+# output folder
+dist/
+# gitlab-ci
+.gitlab-ci.yml
