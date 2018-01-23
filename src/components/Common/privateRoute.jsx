@@ -6,30 +6,27 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class PrivateRoute extends React.PureComponent {
-  static authLogin = () => {
+const PrivateRoute = ({ token, component: Component, ...rest }) => {
+  const authLogin = () => {
     // put your auth code here to confirm users' role
     // return boolean
-  }
-  render() {
-    const { component: Component, ...rest } = this.props;
-    return (
-      <Route
-        {...rest}
-        render={props => (
-          PrivateRoute.authLogin() ?
-            <Component {...props} />
-            :
-            <Redirect to={{
-              pathname: '/login',
-              state: { from: props.location },
-            }}
-            />
-        )}
-      />
-    );
-  }
-}
+  };
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        authLogin() ?
+          <Component {...props} />
+          :
+          <Redirect to={{
+            pathname: '/login',
+            state: { from: props.location },
+          }}
+          />
+      )}
+    />
+  );
+};
 PrivateRoute.propTypes = {
   token: PropTypes.string.isRequired,
   component: PropTypes.func.isRequired, // can't use PropTypes.element
