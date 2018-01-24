@@ -2,11 +2,7 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 
-const itemStyle = {
-  whiteSpace: 'nowrap',
-  margin: '0 10px',
-};
-export default class CycleRoll extends React.PureComponent { // must be reset props to work;
+export default class CycleRoll extends React.PureComponent {
   static defaultProps = {
     dataSource: [],
     duration: 10,
@@ -33,23 +29,30 @@ export default class CycleRoll extends React.PureComponent { // must be reset pr
       top: 0;
       left: 0
     `;
+    this.ScrollSpan = styled.span`
+      white-space: nowrap;
+      margin: 0 10px;
+    `;
+    this.componentWillReceiveProps(this.props); // 对props进行处理，在第一次加载时生成正确组件
   }
   componentWillReceiveProps(nextProps) {
     const { dataSource } = nextProps;
+    const { ScrollSpan } = this;
+    const ScrollLink = ScrollSpan.withComponent('a');
     const dataDoms = dataSource.map((data, index) => {
       const listNo = index + 1;
       const {
         link, name, content, custom,
       } = data;
       const dom = custom ?
-        <span style={itemStyle}>{custom}</span>
+        <ScrollSpan>{custom}</ScrollSpan>
         :
-        <span style={itemStyle}>{listNo}.【{name}】: {content}</span>;
+        <ScrollSpan>{listNo}.【{name}】: {content}</ScrollSpan>;
       return (
         link ?
-          <a style={itemStyle} key={listNo} target="_blank" href={link}>{dom}</a>
+          <ScrollLink key={listNo} target="_blank" href={link}>{dom}</ScrollLink>
           :
-          <span style={itemStyle} key={listNo}>{dom}</span>
+          <ScrollSpan key={listNo}>{dom}</ScrollSpan>
       );
     });
     this.setState(() => ({
