@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 import PrivateRoute from '../Common/privateRoute';
-import AsyncRouteComponent from '../Common/codeSplitRoute';
+import AsyncRouteComponent from '../Common/asyncRoute';
 import Home from '../Home';
 
 export default class App extends React.PureComponent {
