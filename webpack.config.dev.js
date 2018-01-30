@@ -1,6 +1,4 @@
-/*
-eslint-disable
- */
+/* eslint-disable */
 const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 

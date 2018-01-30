@@ -1,10 +1,9 @@
-/*
-eslint-disable
- */
+/* eslint-disable */
 const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const extractLESS = new ExtractTextPlugin('style/[name]__[contenthash].css'); // extract style files to reduce the first load time
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -46,6 +45,10 @@ module.exports = {
         }],
     },
     plugins: [
+        new CopyWebpackPlugin([{
+            from: 'src/PWA',
+            to: 'PWA'
+        }]),
         extractLESS,
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
