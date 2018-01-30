@@ -1,0 +1,15 @@
+{
+  "name": "Basic React Project Progressive Web App",
+  "short_name": "Basic React Project PWA",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#61DAFB",
+  "background_color": "#61DAFB",
+  "icons": [
+    {
+      "src": "React.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ]
+}

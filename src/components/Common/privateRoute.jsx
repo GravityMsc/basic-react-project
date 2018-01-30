@@ -10,6 +10,8 @@ const PrivateRoute = ({ token, component: Component, ...rest }) => {
   const authLogin = () => {
     // put your auth code here to confirm users' role
     // return boolean
+    console.log('auth action');
+    return true;
   };
   return (
     <Route
