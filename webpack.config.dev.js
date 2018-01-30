@@ -16,8 +16,8 @@ module.exports = {
     },
     output: {
         path: __dirname + '/dist/',
-        filename: '[name]__[chunkHash:8].js',
-        chunkFilename: "[name]__[chunkHash:5]_chunk.js", // used by code splitting
+        filename: '[name]__[chunkhash:8].js',
+        chunkFilename: "[name]__[chunkhash:5]_chunk.js", // used by code splitting
         publicPath: '/',
     },
     module: {
