@@ -47,8 +47,10 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin([{
             from: 'src/PWA',
-            to: 'PWA'
-        }]),
+            to: 'PWA',
+            ignore: ['service-worker.js']
+        }, 'src/service-worker.js',
+        ]),
         extractLESS,
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
