@@ -6,8 +6,6 @@ module.exports = {
     entry: {
         index: [
             'react-hot-loader/patch', // activate HMR for React
-            'webpack-dev-server/client?http://0.0.0.0:8088', // WebpackDevServer host and port
-            'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
             './src/index.jsx', // some entry files
         ],
         vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk', 'react-hot-loader'], // all of main libs in this project
@@ -42,6 +40,7 @@ module.exports = {
         publicPath: '/',
         inline: true,
         hot: true,
+        hotOnly: true,
         host: '0.0.0.0',
         port: 8088,
         disableHostCheck: true,
