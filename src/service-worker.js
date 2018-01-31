@@ -11,6 +11,7 @@ self.addEventListener('activate', (event) => {
 
 // Fetch Event (For future caching purpose)
 self.addEventListener('fetch', (event) => {
+  // console.log('Fetch Event', event);
   event.respondWith(fetch(event.request));
 });
 

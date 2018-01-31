@@ -1,5 +1,5 @@
 const register = () => {
-  if (/* process.env.NODE_ENV === 'production' && */'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then((registration) => {
       // 注册成功
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
