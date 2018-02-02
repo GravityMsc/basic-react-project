@@ -12,7 +12,7 @@ const eslintrc = {
   //   "ecmaVersion": 6,
   //   "ecmaFeatures": {
   //     "jsx": true,
-  //     "experimentalObjectRestSpread": true, //允许对象的解构赋值
+  //     "experimentalObjectRestSpread": true,
   //   },
   // },
   "rules": {
