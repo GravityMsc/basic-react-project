@@ -1,6 +1,6 @@
 /* eslint-disable */
 const webpack = require('webpack');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -58,17 +58,17 @@ module.exports = {
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendors',
-            filename: 'common.js',
+            filename: 'vendors.js',
             minChunks: Infinity,
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            async: true,
+            async: 'commonLazy',
             children: true,
             minChunks: 3,
         }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
-        new HtmlwebpackPlugin({
+        new HtmlWebpackPlugin({
             template: './src/index_tpl.html',
             filename: 'index.html',
             favicon: './src/images/favicon.png',

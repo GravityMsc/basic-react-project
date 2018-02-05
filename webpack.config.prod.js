@@ -1,9 +1,10 @@
 /* eslint-disable */
 const webpack = require('webpack');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const extractLESS = new ExtractTextPlugin('style/[name]__[contenthash].css'); // extract style files to reduce the first load time
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const extractLESS = new ExtractTextPlugin('style/[name]__[contenthash].css'); // extract style files to reduce the first load time
 
 module.exports = {
     entry: {
@@ -45,6 +46,7 @@ module.exports = {
         }],
     },
     plugins: [
+        new BundleAnalyzerPlugin(),
         new CopyWebpackPlugin([{
             from: './src/PWA',
             to: 'PWA',
@@ -55,16 +57,16 @@ module.exports = {
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendors',
-            filename: 'js/common.js',
+            filename: 'js/vendors.js',
             minChunks: Infinity,
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            async: true,
+            async: 'commonLazy',
             children: true,
             minChunks: 3,
         }),
         new webpack.NamedModulesPlugin(),
-        new HtmlwebpackPlugin({
+        new HtmlWebpackPlugin({
             template: './src/index_tpl.html',
             filename: 'index.html',
             favicon: './src/images/favicon.png',
@@ -76,11 +78,6 @@ module.exports = {
             },
         }),
         new webpack.optimize.UglifyJsPlugin({
-            comments: false,
-            compress: {
-                warnings: false,
-                drop_console: true,
-            },
             sourceMap: true
         }),
     ],
