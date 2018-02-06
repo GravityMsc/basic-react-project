@@ -11,7 +11,7 @@ module.exports = {
         vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk', 'react-hot-loader'], // all of main libs in this project
     },
     output: {
-        path: __dirname + '/dist/',
+        path: __dirname + '/dist',
         filename: '[name]__[chunkhash:8].js',
         chunkFilename: "[name]__[chunkhash:5]_chunk.js", // used by code splitting
         publicPath: '/',
@@ -29,14 +29,28 @@ module.exports = {
             use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
         }, {
             test: /\.(png|jpe?g|gif)(\?.+)?$/,
-            loader: 'url-loader?name=images/[name].[hash:12].[ext]&limit=10000',
+            use: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    fallback: 'file-loader',
+                    name: '[name].[hash:12].[ext]',
+                    outputPath: './images',
+                }
+            }],
         }, {
             test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
-            loader: 'file-loader?name=fonts/[name].[hash:12].[ext]',
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[hash:12].[ext]',
+                    outputPath: './fonts',
+                }
+            }],
         }],
     },
     devServer: {
-        contentBase: './src/',
+        contentBase: './src',
         publicPath: '/',
         inline: true,
         hot: true,

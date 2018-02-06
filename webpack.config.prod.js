@@ -14,7 +14,7 @@ module.exports = {
         vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk'],
     },
     output: {
-        path: __dirname + '/dist/',
+        path: __dirname + '/dist',
         filename: 'js/[name]__[chunkhash:8].js',
         chunkFilename: "js/[name]__[chunkhash:5]_chunk.js",
         publicPath: '',
@@ -39,18 +39,31 @@ module.exports = {
             }),
         }, {
             test: /\.(png|jpe?g|gif)(\?.+)?$/,
-            loader: 'url-loader?name=images/[name].[hash:12].[ext]&limit=10000',
+            use: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    fallback: 'file-loader',
+                    name: '[name].[hash:12].[ext]',
+                    outputPath: './images',
+                }
+            }],
         }, {
             test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
-            loader: 'file-loader?name=fonts/[name].[hash:12].[ext]',
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[hash:12].[ext]',
+                    outputPath: './fonts',
+                }
+            }],
         }],
     },
     plugins: [
         new BundleAnalyzerPlugin(),
         new CopyWebpackPlugin([{
             from: './src/PWA',
-            to: 'PWA',
-            ignore: ['service-worker.js']
+            to: 'PWA'
         }, './src/service-worker.js',
         ]),
         extractLESS,
