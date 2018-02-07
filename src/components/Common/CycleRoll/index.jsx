@@ -7,10 +7,9 @@ export default class CycleRoll extends React.PureComponent {
     dataSource: [],
     duration: 10,
   }
-  state = {
-    dataDoms: [],
-  };
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
     this.CycleDiv = styled.div`
       height: 40px;
       border: 1px solid #e3e3e3;
@@ -30,13 +29,27 @@ export default class CycleRoll extends React.PureComponent {
       white-space: nowrap;
       margin: 0 10px;
     `;
-    this.componentWillReceiveProps(this.props); // 对props进行处理，在第一次加载时生成正确组件
+    this.state = {
+      dataDoms: this.createInitialDoms(props),
+    };
+  }
+  componentDidMount() {
+    this.adaptDoms();
+    this.startScroll();
   }
   componentWillReceiveProps(nextProps) {
     const { dataSource } = nextProps;
+    this.setState(() => ({
+      dataDoms: this.createInitialDoms(dataSource),
+    }), () => {
+      this.adaptDoms();
+      this.startScroll();
+    });
+  }
+  createInitialDoms = (dataSource) => {
     const { ScrollSpan } = this;
     const ScrollLink = ScrollSpan.withComponent('a');
-    const dataDoms = dataSource.map((data, index) => {
+    return dataSource.map((data, index) => {
       const listNo = index + 1;
       const {
         link, name, content, custom,
@@ -52,14 +65,9 @@ export default class CycleRoll extends React.PureComponent {
           <ScrollSpan key={listNo}>{dom}</ScrollSpan>
       );
     });
-    this.setState(() => ({
-      dataDoms,
-    }), () => {
-      this.fillDoms(dataDoms); // 使用回调函数，保证首先渲染未处理时的dataDoms获取初始宽度
-      this.startScroll();
-    });
   }
-  fillDoms = (dataDoms) => {
+  adaptDoms = () => {
+    const { dataDoms } = this.state;
     const { containerDom, listDom } = this;
     const totalWidth = containerDom.offsetWidth;
     const listWidth = listDom.offsetWidth; // 比较未处理时的dataDoms
@@ -89,7 +97,7 @@ export default class CycleRoll extends React.PureComponent {
     this.setState(() => ({
       dataDoms: dataDomsRepeat,
     }));
-  };
+  }
   stopScroll = () => {
     if (!this.scroll) return;
     this.setState(() => ({
