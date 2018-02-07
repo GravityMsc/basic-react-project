@@ -7,12 +7,9 @@ export default class CycleRoll extends React.PureComponent {
     dataSource: [],
     duration: 10,
   }
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataDoms: [],
-    };
-  }
+  state = {
+    dataDoms: [],
+  };
   componentWillMount() {
     this.CycleDiv = styled.div`
       height: 40px;

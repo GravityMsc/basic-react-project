@@ -10,10 +10,8 @@ import AsyncRouteComponent from '../Common/asyncRoute';
 import Home from '../Home';
 
 export default class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+
   render() {
     return (
       <div>

@@ -2,12 +2,10 @@ import React from 'react';
 
 const AsyncRouteComponent = (loader, LoadingComponent) => (
   class RouteComponent extends React.PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        Component: null,
-      };
-    }
+    state = {
+      Component: null,
+    };
+
     componentWillMount() {
       loader().then((Component) => {
         this.setState(() => ({
