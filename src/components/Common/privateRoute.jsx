@@ -5,30 +5,23 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { authLogin } from '../../util/auth';
 
-const PrivateRoute = ({ token, component: Component, ...rest }) => {
-  const authLogin = () => {
-    // put your auth code here to confirm users' role
-    // return boolean
-    console.log('auth action');
-    return true;
-  };
-  return (
-    <Route
-      {...rest}
-      render={props => (
-        authLogin() ?
-          <Component {...props} />
-          :
-          <Redirect to={{
-            pathname: '/login',
-            state: { from: props.location },
-          }}
-          />
-      )}
-    />
-  );
-};
+const PrivateRoute = ({ token, component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => (
+      authLogin(token) ?
+        <Component {...props} />
+        :
+        <Redirect to={{
+          pathname: '/login',
+          state: { from: props.location },
+        }}
+        />
+    )}
+  />
+);
 PrivateRoute.propTypes = {
   token: PropTypes.string.isRequired,
   component: PropTypes.func.isRequired, // can't use PropTypes.element

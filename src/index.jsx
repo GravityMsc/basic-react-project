@@ -16,7 +16,7 @@ import register from './registerServiceWorker';
 store.dispatch(getToken()); // 预获取登陆信息
 const render = (Component) => {
   ReactDOM.render(
-    process.env.NODE_ENV === 'production' ?
+    process.env.NODE_ENV !== 'production' ?
       <AppContainer>
         <Provider store={store}>
           <BrowserRouter>

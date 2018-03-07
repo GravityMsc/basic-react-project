@@ -12,4 +12,5 @@ const myFetch = async (url, options, transform = res => (res.json())) => {
   }
   return result;
 };
+
 export default myFetch;
