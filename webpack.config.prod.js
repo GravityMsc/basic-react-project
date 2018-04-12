@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const extractLESS = new ExtractTextPlugin('style/[name]__[contenthash].css'); // extract style files to reduce the first load time
+const extractLESS = new ExtractTextPlugin('css/[name]__[contenthash].css'); // extract style files to reduce the first load time
 
 module.exports = {
     entry: {
@@ -36,6 +36,7 @@ module.exports = {
                     'postcss-loader',
                     'less-loader',
                 ],
+                publicPath: '../', // 默认生成路径为style/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
             }),
         }, {
             test: /\.(png|jpe?g|gif)(\?.+)?$/,

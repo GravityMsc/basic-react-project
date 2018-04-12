@@ -30,7 +30,7 @@ export default class CycleRoll extends React.PureComponent {
       margin: 0 10px;
     `;
     this.state = {
-      dataDoms: this.createInitialDoms(props),
+      dataDoms: this.createInitialDoms(props.dataSource),
     };
   }
   componentDidMount() {
