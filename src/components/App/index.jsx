@@ -16,6 +16,10 @@ import AsyncRouteComponent from '../Common/asyncRoute';
 import Home from '../Home';
 
 class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    store.dispatch(getToken());
+  }
   state = {};
 
   render() {
@@ -35,7 +39,6 @@ class App extends React.PureComponent {
     // 但是需要补充默认根路由组件，即 / 的访问情况。二者权衡根据项目来定。
   }
 }
-store.dispatch(getToken()); // get login token
 
 const WrapApp = process.env.NODE_ENV !== 'production' ?
   hot(module)(() => (

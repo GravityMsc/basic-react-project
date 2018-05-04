@@ -1,34 +1,39 @@
 {
-    "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "browsers": [
-                        "last 2 versions"
-                    ]
-                },
-                "modules": false,
-                "useBuiltIns": "usage"
-            }
-        ],
-        "@babel/stage-2",
-        "@babel/react"
-    ],
-    "env": {
-        "development": {
-            "presets": [
-                [
-                    "@babel/react",
-                    {
-                        "development": true
-                    }
-                ]
-            ],
-            "plugins": [
-                "react-hot-loader/babel"
-            ]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions"
+          ]
         },
-        "production": {}
-    }
+        "modules": false,
+        "useBuiltIns": "usage"
+      }
+    ],
+    [
+      "@babel/stage-2",
+      {
+        "decoratorsLegacy": true
+      }
+    ],
+    "@babel/react"
+  ],
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "@babel/react",
+          {
+            "development": true
+          }
+        ]
+      ],
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {}
+  }
 }

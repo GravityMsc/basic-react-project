@@ -54,6 +54,7 @@ module.exports = {
           outputPath: './images',
         }
       }],
+      publicPath: '../', // 默认生成路径为css/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
     }, {
       test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
       use: [{
