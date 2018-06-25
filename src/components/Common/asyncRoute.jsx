@@ -2,17 +2,17 @@ import React from 'react';
 
 const AsyncRouteComponent = (loader, LoadingComponent) => (
   class RouteComponent extends React.PureComponent {
-    state = {
-      Component: null,
-    };
-
-    componentWillMount() {
+    constructor(props) {
+      super(props);
       loader().then((Component) => {
         this.setState(() => ({
           Component: Component.default || Component,
         }));
       });
     }
+    state = {
+      Component: null,
+    };
     render() {
       const { Component } = this.state;
       if (Component) {
