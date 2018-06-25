@@ -59,8 +59,10 @@ module.exports = {
     inline: true,
     hot: true,
     hotOnly: true,
+    useLocalIp: true,
     host: '0.0.0.0',
     port: 8088,
+    open: true,
     disableHostCheck: true,
     historyApiFallback: true,
     // proxy: [{

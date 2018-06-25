@@ -6,6 +6,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const extractLESS = new ExtractTextPlugin('css/[name]__[contenthash].css'); // extract style files to reduce the first load time
 
+// 采用react-scripts源码处理方式
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const packageJson = require(resolveApp('package.json'));
+
 module.exports = {
   entry: {
     index: [
@@ -17,7 +22,7 @@ module.exports = {
     path: __dirname + '/dist',
     filename: 'js/[name]__[chunkhash:8].js',
     chunkFilename: "js/[name]__[chunkhash:5]_chunk.js",
-    publicPath: '',
+    publicPath: packageJson.homepage || '/', // 项目部署在次级目录下导致的资源文件路径错误
   },
   module: {
     rules: [{
@@ -54,7 +59,6 @@ module.exports = {
           outputPath: './images',
         }
       }],
-      publicPath: '../', // 默认生成路径为css/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
     }, {
       test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
       use: [{
