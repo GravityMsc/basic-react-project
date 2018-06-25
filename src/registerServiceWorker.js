@@ -1,5 +1,6 @@
 const register = () => {
   if (/* process.env.NODE_ENV === 'production' && */'serviceWorker' in navigator) {
+    // serviceWorker作用域必须在 service-worker.js 目录内部（包括本身）
     navigator.serviceWorker.register('/service-worker.js').then((registration) => {
       // 注册成功
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
