@@ -7,6 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const extractLESS = new ExtractTextPlugin('css/[name]__[contenthash].css'); // extract style files to reduce the first load time
+const ArchivedPlugin = require('./webpack/plugin/ArchivedPlugin');
 
 // 采用react-scripts源码处理方式
 const appDirectory = fs.realpathSync(process.cwd());
@@ -106,6 +107,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
     }),
+    new ArchivedPlugin(),
   ],
   resolve: {
     extensions: ['.jsx', '.js']
