@@ -74,7 +74,7 @@ module.exports = {
     }],
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin([{
       from: './src/PWA',
       to: 'PWA'
@@ -83,14 +83,22 @@ module.exports = {
     extractLESS,
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: 'js/vendors.js',
-      minChunks: Infinity,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'commonLazy',
+      async: 'common_lazy',
       children: true,
       minChunks: 3,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'index_libs',
+      filename: 'js/[name].js',
+      chunks: ['index'],
+      minChunks: function (module) {
+        return module.context && module.context.includes('node_modules');
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendors',
+      filename: 'js/[name].js',
+      minChunks: Infinity,
     }),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({

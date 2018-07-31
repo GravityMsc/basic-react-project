@@ -78,14 +78,22 @@ module.exports = {
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: 'vendors.js',
-      minChunks: Infinity,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'commonLazy',
+      async: 'common_lazy',
       children: true,
       minChunks: 3,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'index_libs',
+      filename: '[name].js',
+      chunks: ['index'],
+      minChunks: function (module) {
+        return module.context && module.context.includes('node_modules');
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendors',
+      filename: '[name].js',
+      minChunks: Infinity,
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
