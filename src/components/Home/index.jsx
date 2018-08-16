@@ -1,14 +1,14 @@
 import React from 'react';
 
 export default class Home extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  static defaultProps = {
+    version: 'javascript',
   }
+  state = {};
   render() {
     return (
       <div>
-        Home
+        Home --version {this.props.version}
       </div>
     );
   }

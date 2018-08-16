@@ -1,3 +1,7 @@
+/**
+ * check if token is valid
+ * @param {String} token auth token
+ */
 const authLogin = (token) => {
   // put your auth code here to confirm users' role
   // return boolean

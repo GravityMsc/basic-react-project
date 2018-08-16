@@ -1,7 +1,6 @@
 /* eslint-disable */
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CompileTimePlugin = require('./webpack/plugin/CompileTimePlugin');
 
 module.exports = {
   entry: {
@@ -21,6 +20,10 @@ module.exports = {
       test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
+    }, {
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      use: ['babel-loader', 'ts-loader'],
     }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader', 'postcss-loader'],
@@ -109,9 +112,8 @@ module.exports = {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new CompileTimePlugin(),
   ],
   resolve: {
-    extensions: ['.jsx', '.js']
+    extensions: ['.jsx', '.js', 'tsx', 'ts']
   },
 };

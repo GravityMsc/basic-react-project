@@ -33,6 +33,10 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
     }, {
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      use: ['babel-loader', 'ts-loader'],
+    }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader', 'postcss-loader'],
     }, {
@@ -118,7 +122,7 @@ module.exports = {
     new ArchivedPlugin(),
   ],
   resolve: {
-    extensions: ['.jsx', '.js']
+    extensions: ['.jsx', '.js', 'tsx', 'ts']
   },
   devtool: 'source-map',
 };
