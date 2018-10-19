@@ -63,6 +63,7 @@ module.exports = {
     inline: true,
     hot: true,
     hotOnly: true,
+    https: true,
     useLocalIp: true,
     host: '0.0.0.0',
     port: 8088,
