@@ -10,7 +10,7 @@ module.exports = {
     vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk', 'react-hot-loader'], // all of main libs in this project
   },
   output: {
-    path: __dirname + '/dist',
+    path: __dirname + '/dist/',
     filename: '[name]__[chunkhash:8].js',
     chunkFilename: "[name]__[chunkhash:5]_chunk.js", // used by code splitting
     publicPath: '/',
@@ -43,22 +43,22 @@ module.exports = {
           limit: 10000,
           fallback: 'file-loader',
           name: '[name].[hash:12].[ext]',
-          outputPath: './images',
+          outputPath: './images/',
         }
       }],
     }, {
-      test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
+      test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
       use: [{
         loader: 'file-loader',
         options: {
           name: '[name].[hash:12].[ext]',
-          outputPath: './fonts',
+          outputPath: './fonts/',
         }
       }],
     }],
   },
   devServer: {
-    contentBase: './src',
+    contentBase: './src/',
     publicPath: '/',
     inline: true,
     hot: true,
@@ -72,9 +72,9 @@ module.exports = {
     historyApiFallback: true,
     // proxy: [{
     //     context: [
-    //         '/api',
+    //         '/api/',
     //     ],
-    //     target: 'http(s)://host:port',
+    //     target: 'http(s)://host:port/',
     //     changeOrigin: true,
     //     secure: false,
     // }], // severd by 'http-proxy-middleware', send API requests on the same domain

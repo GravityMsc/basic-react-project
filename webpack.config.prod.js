@@ -22,7 +22,7 @@ module.exports = {
     vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk'],
   },
   output: {
-    path: __dirname + '/dist',
+    path: __dirname + '/dist/',
     filename: 'js/[name]__[chunkhash:8].js',
     chunkFilename: "js/[name]__[chunkhash:5]_chunk.js",
     publicPath: packageJson.homepage || '/', // 项目部署在次级目录下导致的资源文件路径错误
@@ -63,16 +63,16 @@ module.exports = {
           limit: 10000,
           fallback: 'file-loader',
           name: '[name].[hash:12].[ext]',
-          outputPath: './images',
+          outputPath: './images/',
         }
       }],
     }, {
-      test: /\.(ttf|eot|svg|woff|woff2)(\?.+)?$/,
+      test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
       use: [{
         loader: 'file-loader',
         options: {
           name: '[name].[hash:12].[ext]',
-          outputPath: './fonts',
+          outputPath: './fonts/',
         }
       }],
     }],
@@ -80,8 +80,8 @@ module.exports = {
   plugins: [
     // new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin([{
-      from: './src/PWA',
-      to: 'PWA'
+      from: './src/PWA/',
+      to: 'PWA/'
     }, './src/service-worker.js',
     ]),
     extractLESS,
