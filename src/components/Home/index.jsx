@@ -1,4 +1,5 @@
 import React from 'react';
+import WaterFall from '../Common/WaterFall/index.tsx';
 
 export default class Home extends React.PureComponent {
   static defaultProps = {
@@ -9,6 +10,7 @@ export default class Home extends React.PureComponent {
     return (
       <div>
         Home --version {this.props.version}
+        <WaterFall />
       </div>
     );
   }

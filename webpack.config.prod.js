@@ -2,12 +2,10 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const extractLESS = new ExtractTextPlugin('css/[name]__[contenthash].css'); // extract style files to reduce the first load time
-const ArchivedPlugin = require('./webpack/plugin/ArchivedPlugin');
 
 // 采用react-scripts源码处理方式
 const appDirectory = fs.realpathSync(process.cwd());
@@ -15,6 +13,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const packageJson = require(resolveApp('package.json'));
 
 module.exports = {
+  mode: 'production',
   entry: {
     index: [
       './src/index.jsx',
@@ -41,20 +40,20 @@ module.exports = {
       use: ['style-loader', 'css-loader', 'postcss-loader'],
     }, {
       test: /\.less$/,
-      use: extractLESS.extract({
-        fallback: 'style-loader',
-        use: [
-          'css-loader',
-          'postcss-loader',
-          {
-            loader: 'less-loader',
-            options: {
-              javascriptEnabled: true
-            }
-          }
-        ],
-        publicPath: '../', // 默认生成路径为style/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
-      }),
+      use: [{
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: '../', // 默认生成路径为style/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
+        }
+      },
+        'css-loader',
+        'postcss-loader',
+      {
+        loader: 'less-loader',
+        options: {
+          javascriptEnabled: true
+        }
+      }],
     }, {
       test: /\.(png|jpe?g|gif)(\?.+)?$/,
       use: [{
@@ -77,49 +76,67 @@ module.exports = {
       }],
     }],
   },
+  optimization: {
+    // runtimeChunk: {
+    //   name: 'manifest'
+    // }, // it makes splitChunks output through chunkFilename
+    namedModules: true, // default false in prod
+    namedChunks: true, // default false in prod
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          name: 'vendors',
+          filename: 'js/[name].js',
+          test(module, chunks) {
+            return chunks.some(chunk => chunk.name === 'vendors');
+          },
+        },
+        index_libs: {
+          priority: -20,
+          name: 'index_libs',
+          filename: 'js/[name].js',
+          chunks(chunk) {
+            return chunk.name === 'index';
+          },
+          test: /[\\/]node_modules[\\/]/,
+        },
+        async: {
+          priority: -30,
+          reuseExistingChunk: true,
+          name: 'async',
+          filename: 'js/[name].js',
+          chunks: 'async',
+          minChunks: 2
+        },
+        common: {
+          priority: -40,
+          reuseExistingChunk: true,
+          name: 'common',
+          filename: 'js/[name].js',
+          minChunks: 3,
+        }
+      }
+    }
+  },
   plugins: [
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin([{
       from: './src/PWA/',
       to: 'PWA/'
     }, './src/service-worker.js',
     ]),
-    extractLESS,
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'common_lazy',
-      children: true,
-      minChunks: 3,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'index_libs',
-      filename: 'js/[name].js',
-      chunks: ['index'],
-      minChunks: function (module) {
-        return module.context && module.context.includes('node_modules');
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: 'js/[name].js',
-      minChunks: Infinity,
-    }),
-    new webpack.NamedModulesPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name]__[contenthash].css',
+      chunkFilename: 'css/[name]__[contenthash]_chunk.css'
+    }), // extract style files to reduce the first load time
     new HtmlWebpackPlugin({
       template: './src/index_tpl.html',
       filename: 'index.html',
       favicon: './src/images/favicon.png',
       inject: true,
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    }),
-    new ArchivedPlugin(),
   ],
   resolve: {
     extensions: ['.jsx', '.js', 'tsx', 'ts']

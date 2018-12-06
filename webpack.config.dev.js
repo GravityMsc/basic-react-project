@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: {
     index: [
       './src/index.jsx', // some entry files
@@ -11,7 +12,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist/',
-    filename: '[name]__[chunkhash:8].js',
+    filename: '[name]__[hash:8].js',
     chunkFilename: "[name]__[chunkhash:5]_chunk.js", // used by code splitting
     publicPath: '/',
   },
@@ -79,39 +80,56 @@ module.exports = {
     //     secure: false,
     // }], // severd by 'http-proxy-middleware', send API requests on the same domain
   },
-  plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'common_lazy',
-      children: true,
-      minChunks: 3,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'index_libs',
-      filename: '[name].js',
-      chunks: ['index'],
-      minChunks: function (module) {
-        return module.context && module.context.includes('node_modules');
+  optimization: {
+    // runtimeChunk: {
+    //   name: 'manifest'
+    // }, // it makes splitChunks output through chunkFilename
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          name: 'vendors',
+          filename: 'js/[name].js',
+          test(module, chunks) {
+            return chunks.some(chunk => chunk.name === 'vendors');
+          },
+        },
+        index_libs: {
+          priority: -20,
+          name: 'index_libs',
+          filename: 'js/[name].js',
+          chunks(chunk) {
+            return chunk.name === 'index';
+          },
+          test: /[\\/]node_modules[\\/]/,
+        },
+        async: {
+          priority: -30,
+          reuseExistingChunk: true,
+          name: 'async',
+          filename: 'js/[name].js',
+          chunks: 'async',
+          minChunks: 2
+        },
+        common: {
+          priority: -40,
+          reuseExistingChunk: true,
+          name: 'common',
+          filename: 'js/[name].js',
+          minChunks: 3,
+        }
       }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: '[name].js',
-      minChunks: Infinity,
-    }),
+    }
+  },
+  plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index_tpl.html',
       filename: 'index.html',
       favicon: './src/images/favicon.png',
       inject: true,
       hash: true,
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      },
     }),
   ],
   resolve: {
