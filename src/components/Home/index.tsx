@@ -4,7 +4,7 @@ export type Version = 'typescript' | 'javascript';
 export interface HomeProps {
   version: Version
 }
-export default class Home extends React.PureComponent<HomeProps> {
+export class Home extends React.PureComponent<HomeProps> {
   static defaultProps: HomeProps = {
     version: 'typescript'
   }
@@ -20,3 +20,4 @@ export default class Home extends React.PureComponent<HomeProps> {
     );
   }
 }
+export default Home;

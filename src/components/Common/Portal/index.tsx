@@ -8,7 +8,7 @@ export interface PortalProps {
   closeFn: Function | null,
   wrapClick: Function | null,
 }
-export default class Portal extends React.PureComponent<PortalProps, {}>{
+export class Portal extends React.PureComponent<PortalProps, {}>{
   static defaultProps: PortalProps = {
     title: '默认弹窗',
     width: 350,
@@ -66,3 +66,4 @@ export default class Portal extends React.PureComponent<PortalProps, {}>{
     return ReactDOM.createPortal(wrapChildren, this.modalElement);
   }
 }
+export default Portal;

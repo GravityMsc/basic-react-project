@@ -33,7 +33,7 @@ const ScrollSpan: StyledComp<'span'> = styled.span`
   margin: 0 10px;
 `
 const ScrollLink = ScrollSpan.withComponent('a') as StyledComp<'a'>;
-export default class CycleRoll extends React.PureComponent<CycleRollProps, {}>{
+export class CycleRoll extends React.PureComponent<CycleRollProps, {}>{
   static defaultProps: CycleRollProps = {
     dataSource: [],
     duration: 10,
@@ -146,3 +146,4 @@ export default class CycleRoll extends React.PureComponent<CycleRollProps, {}>{
     );
   }
 }
+export default CycleRoll;
