@@ -77,9 +77,9 @@ module.exports = {
     }],
   },
   optimization: {
-    // runtimeChunk: {
-    //   name: 'manifest'
-    // }, // it makes splitChunks output through chunkFilename
+    runtimeChunk: {
+      name: 'manifest'
+    },
     namedModules: true, // default false in prod
     namedChunks: true, // default false in prod
     splitChunks: {
@@ -88,7 +88,6 @@ module.exports = {
         vendors: {
           priority: -10,
           name: 'vendors',
-          filename: 'js/[name].js',
           test(module, chunks) {
             return chunks.some(chunk => chunk.name === 'vendors');
           },
@@ -96,7 +95,6 @@ module.exports = {
         index_libs: {
           priority: -20,
           name: 'index_libs',
-          filename: 'js/[name].js',
           chunks(chunk) {
             return chunk.name === 'index';
           },
@@ -106,16 +104,16 @@ module.exports = {
           priority: -30,
           reuseExistingChunk: true,
           name: 'async',
-          filename: 'js/[name].js',
           chunks: 'async',
-          minChunks: 2
+          minChunks: 2,
+          enforce: true
         },
         common: {
           priority: -40,
           reuseExistingChunk: true,
           name: 'common',
-          filename: 'js/[name].js',
           minChunks: 3,
+          enforce: true
         }
       }
     }

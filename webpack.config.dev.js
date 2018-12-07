@@ -81,16 +81,15 @@ module.exports = {
     // }], // severd by 'http-proxy-middleware', send API requests on the same domain
   },
   optimization: {
-    // runtimeChunk: {
-    //   name: 'manifest'
-    // }, // it makes splitChunks output through chunkFilename
+    runtimeChunk: {
+      name: 'manifest'
+    },
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
         vendors: {
           priority: -10,
           name: 'vendors',
-          filename: 'js/[name].js',
           test(module, chunks) {
             return chunks.some(chunk => chunk.name === 'vendors');
           },
@@ -98,7 +97,6 @@ module.exports = {
         index_libs: {
           priority: -20,
           name: 'index_libs',
-          filename: 'js/[name].js',
           chunks(chunk) {
             return chunk.name === 'index';
           },
@@ -108,16 +106,16 @@ module.exports = {
           priority: -30,
           reuseExistingChunk: true,
           name: 'async',
-          filename: 'js/[name].js',
           chunks: 'async',
-          minChunks: 2
+          minChunks: 2,
+          enforce: true
         },
         common: {
           priority: -40,
           reuseExistingChunk: true,
           name: 'common',
-          filename: 'js/[name].js',
           minChunks: 3,
+          enforce: true
         }
       }
     }
