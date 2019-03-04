@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
+const NEED_VERSION = '16.6.0';
+const REACT_VERSION = React.version;
 const AsyncRouteComponent = (loader, LoadingComponent) => (
   class RouteComponent extends React.PureComponent {
     constructor(props) {
@@ -25,4 +27,20 @@ const AsyncRouteComponent = (loader, LoadingComponent) => (
     }
   }
 );
-export default AsyncRouteComponent;
+const LazyAsyncRouteComponent = (loader, LoadingComponent) => (props) => {
+  const Component = lazy(loader);
+  return (
+    <Suspense fallback={<LoadingComponent {...props} />}>
+      <Component {...props} />
+    </Suspense>
+  );
+};
+/**
+ * hack compare versions
+ */
+const AsyncRoute = REACT_VERSION >= NEED_VERSION ?
+  LazyAsyncRouteComponent
+  :
+  AsyncRouteComponent;
+
+export default AsyncRoute;

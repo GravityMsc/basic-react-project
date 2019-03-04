@@ -11,7 +11,7 @@ export interface ColumnProps {
  * @returns return JSX.Element array.
  */
 interface ScrollFunction {
-    (): Array<JSX.Element>;
+    (scrollTimes: number): Array<JSX.Element>;
 }
 export interface WaterFallProps {
     containerClassName: string;
@@ -34,9 +34,11 @@ export declare class WaterFall extends React.PureComponent<WaterFallProps, Water
     static cacheImage: (src: string) => Promise<{}>;
     columnRefs: Array<React.RefObject<HTMLDivElement>>;
     state: WaterFallState;
+    scrollTimes: number;
     componentDidMount(): void;
     componentWillUnmount(): void;
     getScrollBottom: () => number;
+    isScroll: () => boolean;
     scrollAppend: (() => void) & _.Cancelable;
     /**
      * 获得瀑布流最小高度列

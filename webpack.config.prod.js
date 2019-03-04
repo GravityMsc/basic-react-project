@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist/',
-    filename: 'js/[name]__[chunkhash:8].js',
+    filename: 'js/[name]__[hash:8].js',
     chunkFilename: "js/[name]__[chunkhash:5]_chunk.js",
     publicPath: packageJson.homepage || '/', // 项目部署在次级目录下导致的资源文件路径错误
   },
@@ -43,7 +43,7 @@ module.exports = {
       use: [{
         loader: MiniCssExtractPlugin.loader,
         options: {
-          publicPath: '../', // 默认生成路径为style/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
+          publicPath: '../', // 默认生成路径为css/xxx，所以为了正确匹配到url()内image路径，需要到上级目录
         }
       },
         'css-loader',

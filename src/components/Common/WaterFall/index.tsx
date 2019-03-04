@@ -16,7 +16,7 @@ export interface ColumnProps {
  * @returns return JSX.Element array.
  */
 interface ScrollFunction {
-  (): Array<JSX.Element>
+  (scrollTimes: number): Array<JSX.Element>
 }
 export interface WaterFallProps {
   containerClassName: string,
@@ -63,6 +63,7 @@ export class WaterFall extends React.PureComponent<WaterFallProps, WaterFallStat
   })
   columnRefs: Array<React.RefObject<HTMLDivElement>> = []
   state: WaterFallState = {}
+  scrollTimes: number = 0
   componentDidMount() {
     this.scrollAppend();
     window.addEventListener('scroll', this.scrollAppend);
@@ -77,13 +78,24 @@ export class WaterFall extends React.PureComponent<WaterFallProps, WaterFallStat
     const scrollTop = Html.scrollTop;
     return (scrollHeight - clientHeight - scrollTop);
   }
+  isScroll = () => {
+    const Html = document.documentElement as HTMLElement;
+    const scrollHeight = Html.scrollHeight;
+    const clientHeight = Html.clientHeight;
+    return scrollHeight > clientHeight;
+  }
   scrollAppend = _.throttle(() => {
     const scrollBottom = this.getScrollBottom();
     if (scrollBottom < this.props.minScrollBottom) {
       console.log('scroll active');
-      const elementArr = this.props.scrollFn();
+      const elementArr = this.props.scrollFn(this.scrollTimes);
       const times = 0;
       this.appendColumnData(elementArr, times);
+      this.scrollTimes = this.scrollTimes += 1;
+    }
+    // 当无滚动时，手动执行scroll函数
+    if (this.getScrollBottom() <= 0) {
+      this.scrollAppend()
     }
   }, 500)
   /**

@@ -12,7 +12,7 @@ import history from '../History';
 import store from '../../store';
 import { getToken } from '../../components/Login/action';
 import PrivateRoute from '../Common/privateRoute';
-import AsyncRouteComponent from '../Common/asyncRoute';
+import AsyncRoute from '../Common/asyncRoute';
 import Home from '../Home/index';
 
 class App extends React.PureComponent {
@@ -28,7 +28,7 @@ class App extends React.PureComponent {
         <Link to="/">Home</Link>
         <Link to="/login">Login</Link>
         <Switch>
-          <Route path="/login" component={AsyncRouteComponent(() => import(/* webpackChunkName: "loginChunk" */'../Login'))} />
+          <Route path="/login" component={AsyncRoute(() => import(/* webpackChunkName: "loginChunk" */'../Login'))} />
           <PrivateRoute path="/" component={Home} />
         </Switch>
       </div>
