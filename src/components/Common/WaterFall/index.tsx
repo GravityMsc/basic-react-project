@@ -119,7 +119,7 @@ export class WaterFall extends React.PureComponent<WaterFallProps, WaterFallStat
   appendColumnData = async (elementArr: Array<JSX.Element>, times: number) => {
     if (times < elementArr.length) {
       const originElement = elementArr[times];
-      const element = React.cloneElement(originElement, {
+      const element: JSX.Element = React.cloneElement(originElement, {
         style: {
           ...originElement.props.style,
           width: '100%', // 对元素限定宽度，与列宽相同

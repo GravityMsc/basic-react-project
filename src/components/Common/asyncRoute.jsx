@@ -30,7 +30,7 @@ const AsyncRouteComponent = (loader, LoadingComponent) => (
 const LazyAsyncRouteComponent = (loader, LoadingComponent) => (props) => {
   const Component = lazy(loader);
   return (
-    <Suspense fallback={<LoadingComponent {...props} />}>
+    <Suspense fallback={LoadingComponent ? <LoadingComponent {...props} /> : null}>
       <Component {...props} />
     </Suspense>
   );
