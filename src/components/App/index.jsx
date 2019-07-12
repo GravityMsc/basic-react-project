@@ -10,7 +10,7 @@ import { hot } from 'react-hot-loader';
 
 import history from '../History';
 import store from '../../store';
-import { getToken } from '../../components/Login/action';
+import { getToken } from '../Login/action';
 import PrivateRoute from '../Common/privateRoute';
 import AsyncRoute from '../Common/asyncRoute';
 import Home from '../Home/index';
@@ -20,6 +20,7 @@ class App extends React.PureComponent {
     super(props);
     store.dispatch(getToken());
   }
+
   state = {};
 
   render() {
