@@ -2,8 +2,8 @@
   "name": "basicreactproject",
   "version": "0.0.1",
   "description": "Basic webpack config and react demo, using redux and react-router for developing",
-  "main": "index.jsx",
-  "types": "types/index.d.ts",
+  "main": "./src/index.jsx",
+  "types": "./types/index.d.ts",
   "scripts": {
     "test": "jest --config .jest.js",
     "build": "webpack --config webpack.config.prod.js",
