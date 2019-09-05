@@ -13,7 +13,7 @@ import store from '../../store';
 import { getToken } from '../Login/action';
 import PrivateRoute from '../Common/privateRoute';
 import AsyncRoute from '../Common/asyncRoute';
-import Home from '../Home/index.tsx';
+import Home from '../Home/index';
 
 class App extends React.PureComponent {
   constructor(props) {
