@@ -31,7 +31,7 @@ export declare class WaterFall extends React.PureComponent<WaterFallProps, Water
      * @param src image src
      * @returns Promise.resolve with event when loaded.
      */
-    static cacheImage: (src: string) => Promise<{}>;
+    static cacheImage: (src: string) => Promise<Event>;
     columnRefs: Array<React.RefObject<HTMLDivElement>>;
     state: WaterFallState;
     scrollTimes: number;

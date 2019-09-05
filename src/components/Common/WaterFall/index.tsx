@@ -56,7 +56,7 @@ export class WaterFall extends React.PureComponent<WaterFallProps, WaterFallStat
    * @param src image src
    * @returns Promise.resolve with event when loaded.
    */
-  static cacheImage = (src: string) => new Promise(resolve => {
+  static cacheImage = (src: string): Promise<Event> => new Promise(resolve => {
     const img = new Image();
     img.onload = (e) => resolve(e);
     img.src = src;
