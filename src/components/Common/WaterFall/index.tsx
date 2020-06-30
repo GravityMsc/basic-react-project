@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 
-import * as imgUrl1 from '../../../images/test1.png';
-import * as imgUrl2 from '../../../images/test2.png';
-import * as imgUrl3 from '../../../images/favicon.png';
+import imgUrl1 from '../../../images/test1.png';
+import imgUrl2 from '../../../images/test2.png';
+import imgUrl3 from '../../../images/favicon.png';
 
 export interface ColumnProps {
   className: string,
