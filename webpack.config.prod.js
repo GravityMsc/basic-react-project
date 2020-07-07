@@ -120,11 +120,13 @@ module.exports = {
   },
   plugins: [
     new BundleAnalyzerPlugin(),
-    new CopyWebpackPlugin([{
-      from: './src/PWA/',
-      to: 'PWA/'
-    }, './src/service-worker.js',
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: './src/PWA/',
+        to: 'PWA/'
+      }, './src/service-worker.js',
+      ]
+    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name]__[contenthash].css',
       chunkFilename: 'css/[name]__[contenthash]_chunk.css'
