@@ -3,12 +3,11 @@ import {
   Link,
   Switch,
   Route,
-  Router,
+  BrowserRouter,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader';
 
-import history from '../History';
 import store from '../../store';
 import { getToken } from '../Login/action';
 import PrivateRoute from '../Common/privateRoute';
@@ -44,17 +43,17 @@ class App extends React.PureComponent {
 const WrapApp = process.env.NODE_ENV !== 'production' ?
   hot(module)(() => (
     <Provider store={store}>
-      <Router history={history}>
+      <BrowserRouter>
         <Route component={App} />
-      </Router>
+      </BrowserRouter>
     </Provider>
   ))
   :
   () => (
     <Provider store={store}>
-      <Router history={history}>
+      <BrowserRouter>
         <Route component={App} />
-      </Router>
+      </BrowserRouter>
     </Provider>
   );
 export default WrapApp;
