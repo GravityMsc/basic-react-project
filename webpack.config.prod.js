@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist/',
-    filename: 'js/[name]__[hash:8].js',
+    filename: 'js/[name]__[fullhash:8].js',
     chunkFilename: "js/[name]__[chunkhash:5]_chunk.js",
     publicPath: packageJson.homepage || '/', // 项目部署在次级目录下导致的资源文件路径错误
   },
@@ -61,7 +61,7 @@ module.exports = {
         options: {
           limit: 10000,
           fallback: 'file-loader',
-          name: '[name].[hash:12].[ext]',
+          name: '[name].[fullhash:12].[ext]',
           outputPath: './images/',
         }
       }],
@@ -70,7 +70,7 @@ module.exports = {
       use: [{
         loader: 'file-loader',
         options: {
-          name: '[name].[hash:12].[ext]',
+          name: '[name].[fullhash:12].[ext]',
           outputPath: './fonts/',
         }
       }],
@@ -80,42 +80,8 @@ module.exports = {
     runtimeChunk: {
       name: 'manifest'
     },
-    namedModules: true, // default false in prod
-    namedChunks: true, // default false in prod
     splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendors: {
-          priority: -10,
-          name: 'vendors',
-          test(module, chunks) {
-            return chunks.some(chunk => chunk.name === 'vendors');
-          },
-        },
-        index_libs: {
-          priority: -20,
-          name: 'index_libs',
-          chunks(chunk) {
-            return chunk.name === 'index';
-          },
-          test: /[\\/]node_modules[\\/]/,
-        },
-        async: {
-          priority: -30,
-          reuseExistingChunk: true,
-          name: 'async',
-          chunks: 'async',
-          minChunks: 2,
-          enforce: true
-        },
-        common: {
-          priority: -40,
-          reuseExistingChunk: true,
-          name: 'common',
-          minChunks: 3,
-          enforce: true
-        }
-      }
+      chunks: 'all'
     }
   },
   plugins: [

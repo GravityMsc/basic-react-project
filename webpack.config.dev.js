@@ -13,7 +13,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist/',
-    filename: '[name]__[hash:8].js',
+    filename: '[name]__[fullhash:8].js',
     chunkFilename: "[name]__[chunkhash:5]_chunk.js", // used by code splitting
     publicPath: '/',
   },
@@ -44,7 +44,7 @@ module.exports = {
         options: {
           limit: 10000,
           fallback: 'file-loader',
-          name: '[name].[hash:12].[ext]',
+          name: '[name].[fullhash:12].[ext]',
           outputPath: './images/',
         }
       }],
@@ -53,7 +53,7 @@ module.exports = {
       use: [{
         loader: 'file-loader',
         options: {
-          name: '[name].[hash:12].[ext]',
+          name: '[name].[fullhash:12].[ext]',
           outputPath: './fonts/',
         }
       }],
@@ -65,7 +65,7 @@ module.exports = {
     inline: true,
     hot: true,
     hotOnly: true,
-    https: true,
+    // https: true,
     useLocalIp: true,
     host: '0.0.0.0',
     port: 8088,
@@ -86,39 +86,7 @@ module.exports = {
       name: 'manifest'
     },
     splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendors: {
-          priority: -10,
-          name: 'vendors',
-          test(module, chunks) {
-            return chunks.some(chunk => chunk.name === 'vendors');
-          },
-        },
-        index_libs: {
-          priority: -20,
-          name: 'index_libs',
-          chunks(chunk) {
-            return chunk.name === 'index';
-          },
-          test: /[\\/]node_modules[\\/]/,
-        },
-        async: {
-          priority: -30,
-          reuseExistingChunk: true,
-          name: 'async',
-          chunks: 'async',
-          minChunks: 2,
-          enforce: true
-        },
-        common: {
-          priority: -40,
-          reuseExistingChunk: true,
-          name: 'common',
-          minChunks: 3,
-          enforce: true
-        }
-      }
+      chunks: 'all'
     }
   },
   plugins: [

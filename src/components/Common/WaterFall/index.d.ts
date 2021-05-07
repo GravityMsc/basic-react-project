@@ -39,12 +39,12 @@ export declare class WaterFall extends React.PureComponent<WaterFallProps, Water
     componentWillUnmount(): void;
     getScrollBottom: () => number;
     isScroll: () => boolean;
-    scrollAppend: (() => void) & _.Cancelable;
+    scrollAppend: _.DebouncedFunc<() => void>;
     /**
      * 获得瀑布流最小高度列
      */
     getColumnNumber: () => number;
-    appendColumnData: (elementArr: JSX.Element[], times: number) => Promise<void>;
+    appendColumnData: (elementArr: Array<JSX.Element>, times: number) => Promise<void>;
     /**
      * 获得指定列的数据
      */
