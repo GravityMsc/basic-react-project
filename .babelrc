@@ -3,7 +3,6 @@
     [
       "@babel/preset-env",
       {
-        "modules": false,
         "useBuiltIns": "usage",
         "corejs": {
           "version": 3,
@@ -46,19 +45,6 @@
       ]
     },
     "production": {},
-    "test": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "useBuiltIns": "usage",
-            "corejs": {
-              "version": 3,
-              "proposals": true
-            }
-          }
-        ],
-      ],
-    }
+    "test": {}
   }
 }
