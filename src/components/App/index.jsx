@@ -6,6 +6,7 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { hot } from 'react-hot-loader/root';
 
 import store from '../../store';
 import { getToken } from '../Login/action';
@@ -39,11 +40,21 @@ class App extends React.PureComponent {
   }
 }
 
-const WrapApp = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Route component={App} />
-    </BrowserRouter>
-  </Provider>
-);
+const WrapApp = process.env.NODE_ENV !== 'production' ?
+  hot(() => (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Route component={App} />
+      </BrowserRouter>
+    </Provider>
+  ))
+  :
+  () => (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Route component={App} />
+      </BrowserRouter>
+    </Provider>
+  );
+
 export default WrapApp;

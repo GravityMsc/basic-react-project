@@ -1,14 +1,14 @@
 /* eslint-disable */
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 module.exports = {
+  target: 'web',
   mode: 'development',
   devtool: 'eval-source-map',
   entry: {
     index: [
+      'react-hot-loader/patch',
       './src/index.jsx', // some entry files
     ],
     vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk'], // all of main libs in this project
@@ -23,23 +23,11 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          plugins: ['react-refresh/babel']
-        },
-      }
+      use: ['babel-loader']
     }, {
       test: /\.tsx?$/,
       exclude: /node_modules/,
-      use: ['babel-loader', {
-        loader: 'ts-loader',
-        options: {
-          getCustomTransformers: () => ({
-            before: [ReactRefreshTypeScript()],
-          }),
-        },
-      }],
+      use: ['babel-loader', 'ts-loader'],
     }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader', 'postcss-loader'],
@@ -77,7 +65,6 @@ module.exports = {
     publicPath: '/',
     inline: true,
     hot: true,
-    hotOnly: true,
     // https: true,
     useLocalIp: true,
     host: '0.0.0.0',
@@ -109,8 +96,7 @@ module.exports = {
       favicon: './src/images/favicon.png',
       inject: true,
       hash: true,
-    }),
-    new ReactRefreshWebpackPlugin()
+    })
   ],
   resolve: {
     extensions: ['.jsx', '.js', 'tsx', 'ts']
