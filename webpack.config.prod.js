@@ -51,29 +51,28 @@ module.exports = {
       {
         loader: 'less-loader',
         options: {
-          javascriptEnabled: true
+          lessOptions: {
+            javascriptEnabled: true
+          }
         }
       }],
     }, {
       test: /\.(png|jpe?g|gif)(\?.+)?$/,
-      use: [{
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          fallback: 'file-loader',
-          name: '[name].[fullhash:12].[ext]',
-          outputPath: './images/',
+      type: 'asset',
+      parser: {
+        dataUrlCondition: {
+          maxSize: 10 * 1024 // 10kb
         }
-      }],
+      },
+      generator: {
+        filename: './images/[name].[hash][ext]'
+      }
     }, {
       test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
-      use: [{
-        loader: 'file-loader',
-        options: {
-          name: '[name].[fullhash:12].[ext]',
-          outputPath: './fonts/',
-        }
-      }],
+      type: 'asset/resource',
+      generator: {
+        filename: './fonts/[name].[hash][ext]'
+      }
     }],
   },
   optimization: {

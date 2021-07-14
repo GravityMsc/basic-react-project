@@ -6,7 +6,9 @@ module.exports = async ({ config, mode }) => {
     use: ['style-loader', 'css-loader', 'postcss-loader', {
       loader: 'less-loader',
       options: {
-        javascriptEnabled: true
+        lessOptions: {
+          javascriptEnabled: true
+        }
       }
     }],
   });

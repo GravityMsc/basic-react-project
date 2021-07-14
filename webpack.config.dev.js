@@ -1,6 +1,8 @@
 /* eslint-disable */
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 module.exports = {
   mode: 'development',
@@ -9,7 +11,7 @@ module.exports = {
     index: [
       './src/index.jsx', // some entry files
     ],
-    vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk', 'react-hot-loader'], // all of main libs in this project
+    vendors: ['react', 'prop-types', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk'], // all of main libs in this project
   },
   output: {
     path: __dirname + '/dist/',
@@ -21,11 +23,23 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel-loader',
+      use: {
+        loader: 'babel-loader',
+        options: {
+          plugins: ['react-refresh/babel']
+        },
+      }
     }, {
       test: /\.tsx?$/,
       exclude: /node_modules/,
-      use: ['babel-loader', 'ts-loader'],
+      use: ['babel-loader', {
+        loader: 'ts-loader',
+        options: {
+          getCustomTransformers: () => ({
+            before: [ReactRefreshTypeScript()],
+          }),
+        },
+      }],
     }, {
       test: /\.css$/,
       use: ['style-loader', 'css-loader', 'postcss-loader'],
@@ -34,29 +48,28 @@ module.exports = {
       use: ['style-loader', 'css-loader', 'postcss-loader', {
         loader: 'less-loader',
         options: {
-          javascriptEnabled: true
+          lessOptions: {
+            javascriptEnabled: true
+          }
         }
       }],
     }, {
       test: /\.(png|jpe?g|gif)(\?.+)?$/,
-      use: [{
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          fallback: 'file-loader',
-          name: '[name].[fullhash:12].[ext]',
-          outputPath: './images/',
+      type: 'asset',
+      parser: {
+        dataUrlCondition: {
+          maxSize: 10 * 1024 // 10kb
         }
-      }],
+      },
+      generator: {
+        filename: './images/[name].[hash][ext]'
+      }
     }, {
       test: /\.(ttf|eot|woff|woff2)(\?.+)?$/,
-      use: [{
-        loader: 'file-loader',
-        options: {
-          name: '[name].[fullhash:12].[ext]',
-          outputPath: './fonts/',
-        }
-      }],
+      type: 'asset/resource',
+      generator: {
+        filename: './fonts/[name].[hash][ext]'
+      }
     }],
   },
   devServer: {
@@ -90,7 +103,6 @@ module.exports = {
     }
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index_tpl.html',
       filename: 'index.html',
@@ -98,6 +110,7 @@ module.exports = {
       inject: true,
       hash: true,
     }),
+    new ReactRefreshWebpackPlugin()
   ],
   resolve: {
     extensions: ['.jsx', '.js', 'tsx', 'ts']
